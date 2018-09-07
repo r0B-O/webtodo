@@ -9,7 +9,11 @@ get '/' do
     erb :index
 end
 
-get '/new/' do
+get '/new' do
+    erb :new_form
+end
+
+post '/new/' do
     slno = params[:slno] || ""
     date = params[:date] || ""
     task = params[:task] || ""
