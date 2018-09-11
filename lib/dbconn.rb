@@ -1,6 +1,13 @@
+## Connects with PostgreSQL DB and fethces the data
+## DB is read and then the table is stored into a list of hashes
+## The hash is then used to create an HTML table using gem 'builder'
+## The xml object is then merged into index.erb to be sent to user for 'GET' request
+
+# Gems => pg - PostgreSQL, builder - xml builder
 require 'pg'
 require 'builder'
 
+# Function to read the database and create list with table records
 def read_db
     conn = PG::Connection.open(:dbname => 'tododb')
     res = conn.exec_params('SELECT * FROM todo_list')
@@ -17,12 +24,14 @@ def read_db
     return todo_list
 end
 
+# Write the newly created task to the DB using INSERT
 def write_db(new_task)
     conn = PG::Connection.open(:dbname => 'todo')
     write_query = "INSERT INTO todo_list VALUES (#{new_task[slno]}, #{new_task[task]})"
     res = conn.exec_params(write_query)
 end
 
+# Create a table from the list of records read from DB
 def get_table
     todo_list = read_db
     # puts todo_list
@@ -36,6 +45,7 @@ def get_table
     return xm
 end
 
+# Merge the table in xml format with index.erb file
 def build_index_fle
     current_line = 1
     table = get_table
