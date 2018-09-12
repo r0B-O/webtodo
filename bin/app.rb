@@ -26,10 +26,17 @@ def read_db
 end
 
 # Write the newly created task to the DB using INSERT
-def write_db(new_task)
-    conn = PG::Connection.open(:dbname => 'todo')
-    write_query = "INSERT INTO todo_list VALUES (#{new_task[slno]}, #{new_task[task]})"
-    res = conn.exec_params(write_query)
+def add_task
+    conn = PG::Connection.open(:dbname => 'tododb')
+    query = "INSERT INTO todo_list VALUES (#{params["slno"]}, '#{params["task"]}');"
+    conn.exec_params(query)
+end
+
+# Delete the task as per users request
+def delete_task
+    conn = PG::Connection.open(:dbname => 'tododb')
+    query = "DELETE FROM todo_list WHERE slno=#{params["slno"]};"
+    conn.exec_params(query)
 end
 
 # Create a table from the list of records read from DB
@@ -54,20 +61,21 @@ def get_table
 end
 
 # Merge the table in xml format with index.erb file
-def build_index_fle
-    # index_erb - styling and header, table - xml table from db, add_link - href to add new task
+def build_index_file
+    # index_erb - styling and header; table - xml table from db; links - href to add/delete task
     index_erb = ['<h3 align="center">Tasks to do are listed below:</h3>', '<style>', 'table, th, td {', '        width: 50%;', '        border: 1px solid black;', '        border-collapse: collapse;', '}', '</style>']
     table = get_table
     table_as_list = []
     new_task_link = ['<div style="text-align:center">', '        <br/><br/><br/><br/><br/>', '        <a href="/new">Add New Task</a>', '</div>']      
+    delete_task_link = ['<div style="text-align:center">', '        <br/>', '        <a href="/del">Delete a Task</a>', '</div>']      
+    
     # index_file is final index page
-    index_file = index_erb + table + new_task_link
-    puts index_file
-     
+    index_file = index_erb + table + new_task_link + delete_task_link
+    
+    # Writes the contents of the array into the file
     file_name = ( "views/index.erb")
     file = open(file_name, 'a+')
     file.truncate(0)
-    # Writes the contents of the array into the file
     puts "Building index file..."
     index_file.each do |line|
       file.write("#{line}\n")
@@ -84,7 +92,7 @@ set :views, "views"
 # GET Request Handler for route '/'
 # Route is the path requested
 get '/' do
-    build_index_fle
+    build_index_file
     erb :index
 end
 
@@ -95,5 +103,19 @@ end
 
 # Post request to submit the new task form
 post '/new' do
-    erb :new_form
+   add_task
+   build_index_file
+   erb :index
+end
+
+# GET Handler to for delete request form
+get '/del' do
+    erb :delete
+end
+
+# POST Handler to submit and update db
+post '/del' do
+    delete_task
+    build_index_file
+    erb :index
 end
