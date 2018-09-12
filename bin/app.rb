@@ -59,9 +59,9 @@ def build_index_fle
     index_erb = ['<h3 align="center">Tasks to do are listed below:</h3>', '<style>', 'table, th, td {', '        width: 50%;', '        border: 1px solid black;', '        border-collapse: collapse;', '}', '</style>']
     table = get_table
     table_as_list = []
-    add_link = ['<div style="text-align:center">', '        <br/><br/><br/><br/><br/>', '        <a href="/new">Add New Task</a>', '</div>']      
+    new_task_link = ['<div style="text-align:center">', '        <br/><br/><br/><br/><br/>', '        <a href="/new">Add New Task</a>', '</div>']      
     # index_file is final index page
-    index_file = index_erb + table + add_link
+    index_file = index_erb + table + new_task_link
     puts index_file
      
     file_name = ( "views/index.erb")
