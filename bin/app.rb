@@ -63,11 +63,27 @@ end
 # Merge the table in xml format with index.erb file
 def build_index_file
     # index_erb - styling and header; table - xml table from db; links - href to add/delete task
-    index_erb = ['<h3 align="center">Tasks to do are listed below:</h3>', '<style>', 'table, th, td {', '        width: 50%;', '        border: 1px solid black;', '        border-collapse: collapse;', '}', '</style>']
+    index_erb = ['<h3 align="center">Tasks to do are listed below:</h3>',
+         '<style>',
+          'table, th, td {',
+            '        width: 50%;',
+            '        border: 1px solid black;',
+            '        border-collapse: collapse;',
+            '}',
+            '</style>'
+            ]
     table = get_table
     table_as_list = []
-    new_task_link = ['<div style="text-align:center">', '        <br/><br/><br/><br/><br/>', '        <a href="/new">Add New Task</a>', '</div>']      
-    delete_task_link = ['<div style="text-align:center">', '        <br/>', '        <a href="/del">Delete a Task</a>', '</div>']      
+    new_task_link = ['<div style="text-align:center">',
+         '        <br/><br/><br/><br/><br/>',
+         '        <a href="/new">Add New Task</a>',
+        '</div>'
+        ]      
+    delete_task_link = ['<div style="text-align:center">',
+         '        <br/>',
+         '        <a href="/del">Delete a Task</a>',
+        '</div>'
+        ]      
     
     # index_file is final index page
     index_file = index_erb + table + new_task_link + delete_task_link
@@ -103,9 +119,9 @@ end
 
 # Post request to submit the new task form
 post '/new' do
-   add_task
-   build_index_file
-   erb :index
+    add_task
+    build_index_file
+    erb :index
 end
 
 # GET Handler to for delete request form
