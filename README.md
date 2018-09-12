@@ -7,7 +7,7 @@ Welcome to your new gem! In this directory, you'll find the files you need to be
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'webtodo'
+gem install 'webtodo'
 ```
 
 And then execute:
@@ -21,7 +21,7 @@ Or install it yourself as:
 ## Usage
 
 ```bash
-rerun 'ruby/webtodo.rb'
+'ruby bin/webtodo.rb'
 ```
 Or you can use: require gem
 
