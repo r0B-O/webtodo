@@ -40,7 +40,7 @@ def delete_task
 end
 
 # Create a table from the list of records read from DB
-def get_table
+def build_table
     todo_list = read_db
     # puts todo_list
 
@@ -72,7 +72,7 @@ def build_index_file
             '}',
             '</style>'
             ]
-    table = get_table
+    table = build_table
     table_as_list = []
     new_task_link = ['<div style="text-align:center">',
          '        <br/><br/><br/><br/><br/>',
@@ -99,7 +99,7 @@ def build_index_file
     file.close
 end
 
-# Cinfiguration for Sinatra Methods
+# Configuration for Sinatra Methods
 set :port, 8080
 set :static, true
 set :public_folder, "static"
