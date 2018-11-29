@@ -3,7 +3,7 @@
 ## The hash is then used to create an HTML table using gem 'builder'
 ## The xml object is then merged into index.erb to be sent to user for 'GET' request
 
-# Gems => pg - PostgreSQL, builder - xml builder
+# Gems => pg - PostgreSQL; builder - xml builder; sinatra - Sinatra Framework
 require 'sinatra'
 require 'pg'
 require 'builder'
@@ -17,7 +17,7 @@ def read_db
     todo_list = []
     
     for field in res
-        todo= {}
+        todo = {}
         todo.merge!(:slno => field['slno'])
         todo.merge!(:task => field['task'])
         todo_list.push(todo)
